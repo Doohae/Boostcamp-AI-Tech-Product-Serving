@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -32,11 +32,16 @@ class UpdateModelIn(BaseModel):
     tags: List[str]
     artifact_url: str
 
+#### TODO part ####
+class CreateModelOut(BaseModel):
+    pass
+###################
+
 
 @app.get("/models")
-def get_models():
+def get_models() -> List[Model]:
     # TODO: model 리스트를 리턴합니다
-    pass
+    return models
 
 
 @app.get("/model/{model_id}")
@@ -46,12 +51,16 @@ def get_model(model_id: int):
         if model.id == model_id:
             return model
     # TODO: 일치하는 model_id가 없을 때 404 에러와 에러 메시지를 추가해봅니다.
+    raise HTTPException(status_code=404, detail=f"모델을 찾을 수 없습니다 [id: {model_id}]")
 
 
 @app.get("/model")
 def get_model_by_name(model_name: str):
     # TODO: model 리스트로 부터 model_name이 일치하는 model을 가져와 리턴합니다
-    pass
+    for model in models:
+        if model.name == model_name:
+            return model
+    raise HTTPException(status_code=404, detail=f"모델을 찾을 수 없습니다 [name: {model_name}]")
 
 
 @app.post("/model")  # TODO: CreateModelOut이라는 class를 만들고, 새로운 모델의 id 만을 응답하도록 바꿔보기
