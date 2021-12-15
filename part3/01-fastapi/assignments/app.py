@@ -72,9 +72,9 @@ def create_model(new_model: CreateModelIn):
 @app.patch("/model/{model_id}")  # TODO: UpdateModelOut이라는 class를 만들어서, 업데이트된 모델의 id를 제외한 모든 정보 보여주도록 바꿔보기
 def update_model(model_id: int, update_data: UpdateModelIn):
     # TODO: 매칭되는 model_id를 가지고 있는 모델을 업데이트합니다
-
+    
     # TODO: 매칭 되는 id를 가진 모델이 없을 때 404 에러와 메시지를 추가합니다.
-    pass
+    raise HTTPException(status_code=404, detail=f"모델을 찾을 수 없습니다 [id: {model_id}]")
 
 
 @app.delete("/model/{model_id}")  # TODO: status code를 204로 바꿔보기

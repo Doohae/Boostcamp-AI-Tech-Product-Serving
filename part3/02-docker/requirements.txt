@@ -1,3 +1,4 @@
+# pip list --not-required --format=freeze > requirements.txt
 anyio==3.3.4
 asgiref==3.4.1
 certifi==2021.10.8
